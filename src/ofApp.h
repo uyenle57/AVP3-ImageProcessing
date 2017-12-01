@@ -22,4 +22,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		
     ofImage myImage;
+    ofTexture myTexture;
+    ofPixels pixelsCopy;
+    ofPixels myPixels, myPixels2, myPixels3;
 };
