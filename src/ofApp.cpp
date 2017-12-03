@@ -8,11 +8,17 @@
  tle004@gold.ac.uk
  
  ----------------
- A simple project that processes images using pixels.
+ A simple project that draws Phyllotaxis using pixel colours from an image.
+ 
+ - First we load and process the image to get colour of each pixel.
+ - Then draw the Phyllotaxis shape
+ - And assign each pixel colour to each circle of the Phyllotaxis shape
+ 
  
  ----------------
  Credits:
  - Image from https://www.unsplash.com
+ - Phyllotaxis tutorial: https://www.youtube.com/watch?v=KWoJgHFYWxY
  
  */
 
@@ -20,6 +26,7 @@
 void ofApp::setup(){
     
     ofBackground(0, 0, 0);
+
     
     //Load the image
     myImage.load("/Users/uyenle/Desktop/AudioVisual/AVPCoursework_tle004/AVP3-ImageProcessing/bin/data/averie-woodard-111822.jpg");
@@ -34,39 +41,60 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
-     myTexture.allocate(imagePixels);
+    
+    n++;
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    
     //Resize the image so that it fits with the window size
     myImage.resize(ofGetWindowWidth(), ofGetWindowHeight());
-
-
+    
+    
     //Image pixels processing happens here
+
+//    for (int i=0; i < myImage.getWidth(); i++) {
+//        for (int j=0; j < myImage.getHeight(); j++) {
+//
+//            //Get the color of each pixel of the image
+//            imageColor = myImage.getColor(i, j);
+//
+//            //Draw lots of tiny squares all over the screen and color each square using the pixel colour of the image
+//            ofSetColor(imageColor, ofRandom(100)); //randomising alpha value gives glittering effect
+//
+//            ofDrawRectangle(i, j, 5, 5);
+//
+//        }
+//    }
+   
+    camera.begin();
     
-    for (int i=0; i < imagePixels.getWidth(); i++) {
-        for (int j=0; j < imagePixels.getHeight(); j++) {
-            
-            //Get the color of each pixel of the image
-            ofColor color = imagePixels.getColor(i, j);
-            
-            //Draw lots of circles all over the screen
-            //and color each circle using the pixel colour of the image
-            ofSetColor(color);
-            
-            int spacing = 5;
-            
-            ofDrawEllipse(ofRandom(ofGetWindowWidth() * spacing), ofRandom(ofGetWindowHeight() * spacing), 5,5);
-        }
-    }
+    glEnable(GL_DEPTH_TEST);
     
+    ofSetColor(255, 255, 255);
+    ofFill();
+    
+    ofPushMatrix();
+    
+    // Phyllotaxis shape
+    double angle = n * ofRadToDeg(137.5);
+    double radius = c * sqrt(n);
+    
+    double x = radius * cos(angle);
+    double y = radius * sin(angle);
+    
+    ofDrawSphere(x, y, 0, 10);
+    
+    ofPopMatrix();
+    
+    camera.end();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+
 
 }
 

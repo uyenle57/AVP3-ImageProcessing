@@ -26,4 +26,11 @@ class ofApp : public ofBaseApp{
     
     ofPixels imagePixels;
     
+    ofColor imageColor;
+    
+    ofEasyCam camera;
+    
+    // Phyllotaxis shape
+    double n = 0.0;
+    double c = 4.0;
 };
