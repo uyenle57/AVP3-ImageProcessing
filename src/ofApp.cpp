@@ -24,10 +24,10 @@ void ofApp::setup(){
     //Load the image
     myImage.load("/Users/uyenle/Desktop/AudioVisual/AVPCoursework_tle004/AVP3-ImageProcessing/bin/data/averie-woodard-111822.jpg");
     
-    myPixels.allocate(myImage.getWidth(), myImage.getHeight(), 1);
+    imagePixels.allocate(myImage.getWidth(), myImage.getHeight(), 1);
     
     //Store the pixels of the image into 'myPixels'
-    myPixels = myImage.getPixels();
+    imagePixels = myImage.getPixels();
     
     
 }
@@ -35,7 +35,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
-     myTexture.allocate(myPixels);
+     myTexture.allocate(imagePixels);
 }
 
 //--------------------------------------------------------------
@@ -44,30 +44,25 @@ void ofApp::draw(){
     //Resize the image so that it fits with the window size
     myImage.resize(ofGetWindowWidth(), ofGetWindowHeight());
 
-    vector <ofColor> myColors;
 
-    ///////
-    for (int i=0; i < myPixels.getWidth(); i++) {
-        for (int j=0; j < myPixels.getHeight(); j++) {
+    //Image pixels processing happens here
+    
+    for (int i=0; i < imagePixels.getWidth(); i++) {
+        for (int j=0; j < imagePixels.getHeight(); j++) {
             
-            ofColor color = myPixels.getColor(i, j);
+            //Get the color of each pixel of the image
+            ofColor color = imagePixels.getColor(i, j);
             
-            myColors.push_back(color);
+            //Draw lots of circles all over the screen
+            //and color each circle using the pixel colour of the image
+            ofSetColor(color);
+            
+            int spacing = 5;
+            
+            ofDrawEllipse(ofRandom(ofGetWindowWidth() * spacing), ofRandom(ofGetWindowHeight() * spacing), 5,5);
         }
-        
     }
-
-
-    // Draw lots of circles all over the screen
-    int spacing = 10;
-
-    for(int i=0; i < myColors.size(); i++) {
-        // colour each circle using the color pixel of the image
-        ofSetColor(myColors[i]);
-        
-        ofDrawEllipse(ofRandom(ofGetWindowWidth() * spacing), ofRandom(ofGetWindowHeight() * spacing), 5,5);
-
-    }
+    
 }
 
 //--------------------------------------------------------------
