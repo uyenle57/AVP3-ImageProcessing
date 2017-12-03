@@ -25,4 +25,7 @@ class ofApp : public ofBaseApp{
     ofTexture myTexture;
     ofPixels pixelsCopy;
     ofPixels myPixels, myPixels2, myPixels3;
+    
+    ofPixels pix;
+    
 };
