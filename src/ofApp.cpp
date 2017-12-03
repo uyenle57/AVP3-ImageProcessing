@@ -26,7 +26,8 @@
 void ofApp::setup(){
     
     ofBackground(0, 0, 0);
-
+    
+    ofSetVerticalSync(true);
     
     //Load the image
     myImage.load("/Users/uyenle/Desktop/AudioVisual/AVPCoursework_tle004/AVP3-ImageProcessing/bin/data/averie-woodard-111822.jpg");
@@ -52,7 +53,7 @@ void ofApp::draw(){
     //Resize the image so that it fits with the window size
     myImage.resize(ofGetWindowWidth(), ofGetWindowHeight());
     
-    
+
     //Image pixels processing happens here
 
 //    for (int i=0; i < myImage.getWidth(); i++) {
@@ -68,7 +69,7 @@ void ofApp::draw(){
 //
 //        }
 //    }
-   
+ 
     camera.begin();
     
     glEnable(GL_DEPTH_TEST);
@@ -79,13 +80,13 @@ void ofApp::draw(){
     ofPushMatrix();
     
     // Phyllotaxis shape
-    double angle = n * ofRadToDeg(137.5);
+    double angle = n * ofRadToDeg(137.5); //137.3, 137.5, 137.6
     double radius = c * sqrt(n);
     
     double x = radius * cos(angle);
     double y = radius * sin(angle);
     
-    ofDrawSphere(x, y, 0, 10);
+    ofDrawSphere(x, y, 0, 7);
     
     ofPopMatrix();
     
