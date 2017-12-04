@@ -18,7 +18,7 @@
  ----------------
  Credits:
  - Image from https://www.unsplash.com
- - Phyllotaxis tutorial: https://www.youtube.com/watch?v=KWoJgHFYWxY
+ - Animated Circle Packing tutorial: https://www.youtube.com/watch?v=QHEQuoIKgNE
  
  */
 
@@ -26,77 +26,108 @@
 void ofApp::setup(){
     
     ofBackground(0, 0, 0);
-    
+    ofEnableSmoothing();
     ofSetVerticalSync(true);
     
     //Load the image
-    myImage.load("/Users/uyenle/Desktop/AudioVisual/AVPCoursework_tle004/AVP3-ImageProcessing/bin/data/averie-woodard-111822.jpg");
+    myImage.load("/Users/uyenle/Desktop/AudioVisual/AVPCoursework_tle004/AVP3-ImageProcessing/bin/data/the-kiss-1908.jpg");
     
     imagePixels.allocate(myImage.getWidth(), myImage.getHeight(), 1);
     
     //Store the pixels of the image into 'myPixels'
     imagePixels = myImage.getPixels();
     
+    resolution = 5;
     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    n++;
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    
     //Resize the image so that it fits with the window size
     myImage.resize(ofGetWindowWidth(), ofGetWindowHeight());
     
+    
+    // Create the animated packing circles
+    float x = ofRandom(ofGetWindowWidth());
+    float y = ofRandom(ofGetWindowHeight());
+    
+    bool validCircle = true;
+    
+    //Make sure circles don't grow inside each other
+    for(Circle c : circles) {
+        float dist = ofDist(x, y, c.posx, c.posy);
+        
+        if (dist < c.radius) {
+            validCircle = false;
+            break;
+        }
+    }
+    
+    //Add a new valid circle every frame
+    if (validCircle) {
+        
+        //Image pixels processing happens here
+        int index = int(x) + int(y) * myImage.getHeight();
+        ofColor col = myImage.getColor(index);
+        circles.push_back(*new Circle(x, y, col));
 
-    //Image pixels processing happens here
-
-//    for (int i=0; i < myImage.getWidth(); i++) {
-//        for (int j=0; j < myImage.getHeight(); j++) {
+    }
+//        for (int i=0; i < myImage.getWidth(); i+=resolution) {
+//            for (int j=0; j < myImage.getHeight(); j+=resolution) {
 //
-//            //Get the color of each pixel of the image
-//            imageColor = myImage.getColor(i, j);
+//                //Get the color of each pixel of the image
+//                imageColor = myImage.getColor(i, j);
 //
-//            //Draw lots of tiny squares all over the screen and color each square using the pixel colour of the image
-//            ofSetColor(imageColor, ofRandom(100)); //randomising alpha value gives glittering effect
+//                //Draw lots of tiny squares all over the screen and color each square using the pixel colour of the image
+//                ofSetColor(imageColor); //randomising alpha value gives glittering effect
 //
-//            ofDrawRectangle(i, j, 5, 5);
-//
+//                circles.push_back(*new Circle(x, y, imageColor));
+//            }
 //        }
-//    }
- 
-    camera.begin();
-    
-    glEnable(GL_DEPTH_TEST);
-    
-    ofSetColor(255, 255, 255);
-    ofFill();
-    
-    ofPushMatrix();
-    
-    // Phyllotaxis shape
-    double angle = n * ofRadToDeg(137.5); //137.3, 137.5, 137.6
-    double radius = c * sqrt(n);
-    
-    double x = radius * cos(angle);
-    double y = radius * sin(angle);
-    
-    ofDrawSphere(x, y, 0, 7);
-    
-    ofPopMatrix();
-    
-    camera.end();
+
+    for(int i=0; i < circles.size(); i++) {
+        
+        //Stop growing if touch the edge of the screen
+        if (circles[i].isGrowing) {
+            if(circles[i].isEdge()) {
+                circles[i].isGrowing = false;
+            }
+            //Make sure circles don't overlap each other
+            else {
+                for (int j=0; j < circles.size(); j++) {
+                    if((circles[i].posx != circles[j].posx) && (circles[i].posy != circles[j].posy)) {
+                        
+                        float dist = ofDist(circles[i].posx, circles[i].posy, circles[j].posx, circles[j].posy);
+                        
+                        if(dist < circles[i].radius + circles[j].radius) {
+                            circles[i].isGrowing = false;
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+        circles[i].draw();
+        circles[i].grow();
+    }
+
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
-
+    if(key == OF_KEY_UP)
+        resolution++;
+    else if(key == OF_KEY_DOWN)
+        resolution--;
 }
 
 //--------------------------------------------------------------

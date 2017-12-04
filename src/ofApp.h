@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Circle.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -30,7 +31,8 @@ class ofApp : public ofBaseApp{
     
     ofEasyCam camera;
     
-    // Phyllotaxis shape
-    double n = 0.0;
-    double c = 4.0;
+    int resolution;
+    
+    vector<Circle> circles;
+    
 };
