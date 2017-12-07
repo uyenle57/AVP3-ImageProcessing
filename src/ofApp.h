@@ -24,12 +24,8 @@ class ofApp : public ofBaseApp{
 		
     ofImage myImage;
     ofTexture myTexture;
-    
     ofPixels imagePixels;
-    
     ofColor imageColor;
-    
-    ofEasyCam camera;
     
     int resolution;
     

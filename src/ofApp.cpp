@@ -74,23 +74,11 @@ void ofApp::draw(){
     if (validCircle) {
         
         //Image pixels processing happens here
-        int index = int(x) + int(y) * myImage.getHeight();
-        ofColor col = myImage.getColor(index);
-        circles.push_back(*new Circle(x, y, col));
+        int index = int(x) + int(y) * myImage.getWidth();
+        ofColor color = myImage.getColor(x, y);
+        circles.push_back(*new Circle(x, y, color));
 
     }
-//        for (int i=0; i < myImage.getWidth(); i+=resolution) {
-//            for (int j=0; j < myImage.getHeight(); j+=resolution) {
-//
-//                //Get the color of each pixel of the image
-//                imageColor = myImage.getColor(i, j);
-//
-//                //Draw lots of tiny squares all over the screen and color each square using the pixel colour of the image
-//                ofSetColor(imageColor); //randomising alpha value gives glittering effect
-//
-//                circles.push_back(*new Circle(x, y, imageColor));
-//            }
-//        }
 
     for(int i=0; i < circles.size(); i++) {
         
@@ -119,6 +107,19 @@ void ofApp::draw(){
         circles[i].grow();
     }
 
+    
+//        for (int i=0; i < myImage.getWidth(); i+=resolution) {
+//            for (int j=0; j < myImage.getHeight(); j+=resolution) {
+//
+//                //Get the color of each pixel of the image
+//                imageColor = myImage.getColor(i, j);
+//
+//                //Draw lots of tiny squares all over the screen and color each square using the pixel colour of the image
+//                ofSetColor(imageColor); //randomising alpha value gives glittering effect
+//
+//                circles.push_back(*new Circle(x, y, imageColor));
+//            }
+//        }
 }
 
 //--------------------------------------------------------------
