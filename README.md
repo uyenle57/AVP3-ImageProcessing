@@ -3,7 +3,7 @@ A simple project that explores image pixels processing by drawing animated packe
 
 <br>
 
-![screenshot](image.jpg)
+![screenshot](bin/data/screenshot.png)
 
 #### Prerequisites
 - [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) v9.1 
@@ -11,6 +11,8 @@ A simple project that explores image pixels processing by drawing animated packe
 
 #### Instructions
 1. Download and install Xcode and openFrameworks.
+2. Open and compile the program in Xcode.
+3. Sit and enjoy watching circles growing!
 
 <br>
 
