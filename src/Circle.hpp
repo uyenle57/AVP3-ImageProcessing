@@ -18,7 +18,6 @@ public:
     
     void draw();
     void grow();
-    
     bool isEdge();
     
     bool isGrowing;

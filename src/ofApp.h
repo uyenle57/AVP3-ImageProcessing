@@ -23,11 +23,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		
     ofImage myImage;
-    ofTexture myTexture;
     ofPixels imagePixels;
-    ofColor imageColor;
-    
-    int resolution;
     
     vector<Circle> circles;
     

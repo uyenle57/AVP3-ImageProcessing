@@ -8,16 +8,11 @@
  tle004@gold.ac.uk
  
  ----------------
- A simple project that draws Phyllotaxis using pixel colours from an image.
- 
- - First we load and process the image to get colour of each pixel.
- - Then draw the Phyllotaxis shape
- - And assign each pixel colour to each circle of the Phyllotaxis shape
- 
+ A simple project that explores image pixel manipulation of an image by drawing packed circles.
  
  ----------------
  Credits:
- - Image from https://www.unsplash.com
+ - Image from Google.com 'The Kiss'
  - Animated Circle Packing tutorial: https://www.youtube.com/watch?v=QHEQuoIKgNE
  
  */
@@ -27,7 +22,7 @@ void ofApp::setup(){
     
     ofBackground(0, 0, 0);
     ofEnableSmoothing();
-    ofSetVerticalSync(true);
+    ofSetFrameRate(100); //speed up frame rate so circles appear faster
     
     //Load the image
     myImage.load("/Users/uyenle/Desktop/AudioVisual/AVPCoursework_tle004/AVP3-ImageProcessing/bin/data/the-kiss-1908.jpg");
@@ -36,9 +31,7 @@ void ofApp::setup(){
     
     //Store the pixels of the image into 'myPixels'
     imagePixels = myImage.getPixels();
-    
-    resolution = 5;
-    
+
 }
 
 //--------------------------------------------------------------
@@ -52,7 +45,7 @@ void ofApp::draw(){
     
     //Resize the image so that it fits with the window size
     myImage.resize(ofGetWindowWidth(), ofGetWindowHeight());
-    
+
     
     // Create the animated packing circles
     float x = ofRandom(ofGetWindowWidth());
@@ -64,6 +57,8 @@ void ofApp::draw(){
     for(Circle c : circles) {
         float dist = ofDist(x, y, c.posx, c.posy);
         
+        //if position of current and nearby circle overlap
+        //then it's no longer valid
         if (dist < c.radius) {
             validCircle = false;
             break;
@@ -74,10 +69,12 @@ void ofApp::draw(){
     if (validCircle) {
         
         //Image pixels processing happens here
-        int index = int(x) + int(y) * myImage.getWidth();
-        ofColor color = myImage.getColor(x, y);
-        circles.push_back(*new Circle(x, y, color));
-
+        
+        int index = int(x) + int(y) * myImage.getWidth(); //Get the position of the current pixel
+        
+        ofColor color = myImage.getColor(x, y); //Get the colour of the current pixel
+        
+        circles.push_back(*new Circle(x, y, color)); //Create a new circle at the position of that pixel and colour it using that pixel's colour
     }
 
     for(int i=0; i < circles.size(); i++) {
@@ -87,7 +84,7 @@ void ofApp::draw(){
             if(circles[i].isEdge()) {
                 circles[i].isGrowing = false;
             }
-            //Make sure circles don't overlap each other
+            //Make sure circles don't overlap each other by disable growing once the radius of each circle touches the other's
             else {
                 for (int j=0; j < circles.size(); j++) {
                     if((circles[i].posx != circles[j].posx) && (circles[i].posy != circles[j].posy)) {
@@ -99,7 +96,6 @@ void ofApp::draw(){
                             break;
                         }
                     }
-
                 }
             }
         }
@@ -107,28 +103,11 @@ void ofApp::draw(){
         circles[i].grow();
     }
 
-    
-//        for (int i=0; i < myImage.getWidth(); i+=resolution) {
-//            for (int j=0; j < myImage.getHeight(); j+=resolution) {
-//
-//                //Get the color of each pixel of the image
-//                imageColor = myImage.getColor(i, j);
-//
-//                //Draw lots of tiny squares all over the screen and color each square using the pixel colour of the image
-//                ofSetColor(imageColor); //randomising alpha value gives glittering effect
-//
-//                circles.push_back(*new Circle(x, y, imageColor));
-//            }
-//        }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
-    if(key == OF_KEY_UP)
-        resolution++;
-    else if(key == OF_KEY_DOWN)
-        resolution--;
 }
 
 //--------------------------------------------------------------

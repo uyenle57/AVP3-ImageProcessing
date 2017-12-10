@@ -19,6 +19,8 @@ Circle::Circle(float x, float y, ofColor c) {
 }
 
 void Circle::grow() {
+    
+    // Create growing effect by increasing the radius of the circle
     if(isGrowing) {
         radius++;
     }
