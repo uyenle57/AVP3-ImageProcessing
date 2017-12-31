@@ -11,7 +11,7 @@ A simple project that explores image pixels processing by drawing animated packe
 
 #### Instructions
 1. Download and install Xcode and openFrameworks.
-2. Open and compile the program in Xcode.
+2. Open and compile `AVP3-ImageProcessing.xcodeproj` in Xcode.
 3. Sit and enjoy watching circles growing!
 
 <br>
